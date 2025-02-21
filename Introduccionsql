@@ -1,0 +1,178 @@
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 7709789
+Server version: 8.0.40 Source distribution
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| DiegoN$Chopizza    |
+| DiegoN$default     |
+| information_schema |
+| performance_schema |
++--------------------+
+4 rows in set (0.01 sec)
+mysql> use DiegoN$default;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+Database changed
+mysql> show tables;
++---------------------------+
+| Tables_in_DiegoN$default  |
++---------------------------+
+| detalle_horario           |
+| horario                   |
+| plantilla_detalle_horario |
++---------------------------+
+3 rows in set (0.01 sec)
+mysql> insert into Usuarios (usuario_id, nombre, apellido, deparatamento)
+    -> values (1, 'diego', 'toledo', 'DN'),
+    -> (2, 'rodrigo', 'alvarez', 'RS'),
+    -> (3, 'maddox', 'donovan', 'BY'),
+    -> (4, 'christofer', 'zetina', 'BC'),
+    -> (5, 'cesar', 'Zavala', 'GM'),
+    -> (6, 'cristopher', 'reyes', 'HD'),
+    -> (7, 'allison', 'aritzai', 'PN'),
+    -> (8, 'jose', 'villalobos', 'JK'),
+    -> (9, 'alejandro', 'ramirez', 'CM'),
+    -> (10, 'nicolas', 'guzman', 'CL'),
+    -> 
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syn
+tax to use near '' at line 11
+mysql> show tables;
+    ->   PRIMARY KEY (usuario_id, nombre)
++---------------------------+
+| Tables_in_DiegoN$default  |
++---------------------------+
+| Usuarios                  |
+| detalle_horario           |
+| horario                   |
+| plantilla_detalle_horario |
++---------------------------+
+4 rows in set (0.00 sec)
+
+mysql> CREATE TABLE Usuarios (
+    ->     usuario_id int(11) NOT NULL,
+    ->   nombre varchar(25) NOT NULL,
+    ->   apellido varchar(25) DEFAULT NULL,
+    ->   departamento varchar(25) DEFAULT NULL
+    -> 
+    ->   PRIMARY KEY (usuario_id, nombre)
+    ->  );
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '(usuario_id, nombre)
+ )' at line 7
+mysql> ^[[3~
+
+^C
+mysql> 
+mysql> 
+mysql> CREATE TABLE Usuarios (
+    ->     usuario_id int(11) NOT NULL,
+    ->   nombre varchar(25) NOT NULL,
+    ->   apellido varchar(25) DEFAULT NULL,
+    ->   departamento varchar(25) DEFAULT NULL,
+    -> 
+    ->   PRIMARY KEY (usuario_id, nombre)
+    ->  );
+ERROR 1050 (42S01): Table 'Usuarios' already exists
+mysql> DROP TABLE Usuarios;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> show tables;
++---------------------------+
+| Tables_in_DiegoN$default  |
++---------------------------+
+| detalle_horario           |
+| horario                   |
+| plantilla_detalle_horario |
++---------------------------+
+3 rows in set (0.00 sec)
+
+mysql> CREATE TABLE Usuarios (
+    ->     usuario_id int(11) NOT NULL,
+    ->   nombre varchar(25) NOT NULL,
+    ->   apellido varchar(25) DEFAULT NULL,
+    ->   departamento varchar(25) DEFAULT NULL,
+    -> 
+    ->   PRIMARY KEY (usuario_id, nombre)
+    ->  );
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+mysql> insert into Usuarios (usuario_id, nombre, apellido, deparatamento)
+    -> values (1, 'diego', 'toledo', 'DN'),
+    -> (2, 'rodrigo', 'alvarez', 'RS'),
+    -> (3, 'maddox', 'donovan', 'BY'),
+    -> (4, 'christofer', 'zetina', 'BC'),
+    -> (5, 'cesar', 'Zavala', 'GM'),
+    -> (6, 'cristopher', 'reyes', 'HD'),
+    -> (7, 'allison', 'aritzai', 'PN'),
+    -> (8, 'jose', 'villalobos', 'JK'),
+    -> (9, 'alejandro', 'ramirez', 'CM'),
+    -> (10, 'nicolas', 'guzman', 'CL');
+ERROR 1054 (42S22): Unknown column 'deparatamento' in 'field list'
+mysql> insert into Usuarios (usuario_id, nombre, apellido, departamento)
+    -> values (1, 'diego', 'toledo', 'DN' ),
+    -> (2, 'rodrigo', 'alvarez', 'RS' ),
+    -> (3, 'maddox', 'donovan', 'BY' ),
+    -> (4, 'christofer', 'zetina', 'BC' ),
+    -> (5, 'cesar', 'Zavala', 'GM' ),
+    -> (6, 'cristopher', 'reyes', 'HD' ),
+    -> (7, 'allison', 'aritzai', 'PN' ),
+    -> (8, 'jose', 'villalobos', 'JK' ),
+    -> (9, 'alejandro', 'ramirez', 'CM' ),
+    -> (10, 'nicolas', 'guzman', 'CL' );
+Query OK, 10 rows affected (0.01 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+mysql> select * from usuarios;
+ERROR 1146 (42S02): Table 'DiegoN$default.usuarios' doesn't exist
+mysql> show tables;
++---------------------------+
+| Tables_in_DiegoN$default  |
++---------------------------+
+| Usuarios                  |
+| detalle_horario           |
+| horario                   |
+| plantilla_detalle_horario |
++---------------------------+
+4 rows in set (0.00 sec)
+
+mysql> select * from Usuarios;
++------------+------------+------------+--------------+
+| usuario_id | nombre     | apellido   | departamento |
++------------+------------+------------+--------------+
+|          1 | diego      | toledo     | DN           |
+|          2 | rodrigo    | alvarez    | RS           |
+|          3 | maddox     | donovan    | BY           |
+|          4 | christofer | zetina     | BC           |
+|          5 | cesar      | Zavala     | GM           |
+|          6 | cristopher | reyes      | HD           |
+|          7 | allison    | aritzai    | PN           |
+|          8 | jose       | villalobos | JK           |
+|          9 | alejandro  | ramirez    | CM           |
+|         10 | nicolas    | guzman     | CL           |
++------------+------------+------------+--------------+
+10 rows in set (0.00 sec)
+
+mysql> ALTER TABLE Usuarios
+    -> ADD PRIMARY KEY (usuario_id);
+ERROR 1068 (42000): Multiple primary key defined
+mysql> DESC Usuarios
+    -> *
+    -> ;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '*' at line 2
+mysql> Desc Usuarios;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| usuario_id   | int         | NO   | PRI | NULL    |       |
+| nombre       | varchar(25) | NO   | PRI | NULL    |       |
+| apellido     | varchar(25) | YES  |     | NULL    |       |
+| departamento | varchar(25) | YES  |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
