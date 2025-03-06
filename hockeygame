@@ -1,0 +1,254 @@
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 15346507
+Server version: 8.0.40 Source distribution
+
+Copyright (c) 2000, 2022, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> INSERT into playoffround (id,team1Id,team2Id,startTime, endTime, roundNum)
+    -> values (1,1,2,'2025-02-27 19:14','2025-02-27 20:34',3);
+ERROR 1146 (42S02): Table 'DiegoN$Chopizza.playoffround' doesn't exist
+mysql> 
+mysql> INSERT into hockeygame (id,roundld, startTime, description, team1Id, team2Id)
+    -> values (1, 1, '2025-02-27 19:14', 'Quarterfinals', 1, 2);
+ERROR 1146 (42S02): Table 'DiegoN$Chopizza.hockeygame' doesn't exist
+mysql> 
+mysql> INSERT into gamescores (id, team1Score, team2Score)
+    -> values (1, 2, 2);
+ERROR 1146 (42S02): Table 'DiegoN$Chopizza.gamescores' doesn't exist
+mysql> 
+mysql> INSERT into roundstats (id, numShutouts, goalLeaderId, assistLeaderId, penaltyLeaderId, plusMinusId, faceoffsWonLeaderId, sogLeaderId)
+    -> values (1, 3, 4, 4, 8, 3, 14, 20);
+ERROR 1146 (42S02): Table 'DiegoN$Chopizza.roundstats' doesn't exist
+mysql> 
+mysql> INSERT into userstatspicks (id, roundId, goalLeaderId, assistLeaderId, penaltyLeaderId, plusMinusId, faceoffsWonLeaderId, sogLeaderId, numShutouts, userId)
+    -> values (1, 1, 10, 15, 12, 8, 14, 20, 2, 2);
+ERROR 1146 (42S02): Table 'DiegoN$Chopizza.userstatspicks' doesn't exist
+mysql> 
+mysql> INSERT into user (id, username, password)
+    -> values (3, 'CANDYX', 'MessiT');
+ERROR 1146 (42S02): Table 'DiegoN$Chopizza.user' doesn't exist
+mysql> 
+mysql> INSERT INTO userscorepicks (id, hockeyGameId, team1score, team2score, userId)
+    -> values (1, 1, 2, 2, 1);
+ERROR 1146 (42S02): Table 'DiegoN$Chopizza.userscorepicks' doesn't exist
+mysql> 
+mysql> INSERT into hockeyteam (id, name, logo)
+    -> values(1, 'Team A', '0XA');
+ERROR 1146 (42S02): Table 'DiegoN$Chopizza.hockeyteam' doesn't exist
+mysql> 
+mysql> INSERT into hockeyteamplayer (id, hockeyTeamId, firstName, lastName, jerseyNum, position)
+    -> values (1, 1, 'Guadalupe', 'Toledo', 11, 'Forward');
+ERROR 1146 (42S02): Table 'DiegoN$Chopizza.hockeyteamplayer' doesn't exist
+mysql> 
+mysql> INSERT into userinfo  (id, firstName, lastName, email, round1Points, round2Points, round3Points, round4Points)
+    -> values (1, 'Guadalupe', 'Toledo', 'camila.xin611@gmail.com', 0, 1, 1, 2);
+ERROR 1146 (42S02): Table 'DiegoN$Chopizza.userinfo' doesn't exist
+mysql> use DiegoN$default
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+mysql> show tables
+    -> ;
++---------------------------+
+| Tables_in_DiegoN$default  |
++---------------------------+
+| AUTHORS                   |
+| BOOKS                     |
+| CATEGORIES                |
+| Usuarios                  |
+| detalle_horario           |
+| gamescores                |
+| hockeygame                |
+| hockeyteam                |
+| hockeyteamplayer          |
+| horario                   |
+| plantilla_detalle_horario |
+| playoffround              |
+| roundstats                |
+| user                      |
+| userinfo                  |
+| userscorepicks            |
+| userstatspicks            |
++---------------------------+
+17 rows in set (0.00 sec)
+
+mysql> desc hokeygame;
+ERROR 1146 (42S02): Table 'DiegoN$default.hokeygame' doesn't exist
+mysql> desc hockeygame;
++-------------+------+------+-----+---------+-------+
+| Field       | Type | Null | Key | Default | Extra |
++-------------+------+------+-----+---------+-------+
+| id          | int  | NO   | PRI | NULL    |       |
+| roundld     | int  | NO   |     | NULL    |       |
+| startTime   | date | NO   | PRI | NULL    |       |
+| description | text | YES  |     | NULL    |       |
+| team1Id     | int  | NO   |     | NULL    |       |
+| team2Id     | int  | NO   |     | NULL    |       |
++-------------+------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql> desc gamescores;
++---------+------+------+-----+---------+-------+
+| Field   | Type | Null | Key | Default | Extra |
++---------+------+------+-----+---------+-------+
+| id      | int  | NO   | PRI | NULL    |       |
+| team1Id | int  | NO   |     | NULL    |       |
+| team2Id | int  | NO   |     | NULL    |       |
++---------+------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> ALTER TABLE gamescores
+    -> RENAME COLUMN team1Id to team1Score;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc gamescores;
++------------+------+------+-----+---------+-------+
+| Field      | Type | Null | Key | Default | Extra |
++------------+------+------+-----+---------+-------+
+| id         | int  | NO   | PRI | NULL    |       |
+| team1Score | int  | NO   |     | NULL    |       |
+| team2Id    | int  | NO   |     | NULL    |       |
++------------+------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> ALTER TABLE gamescores
+    -> RENAME COLUMN team2Id to team2Score;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc roundstats;
++---------------------+-------------+------+-----+---------+-------+
+| Field               | Type        | Null | Key | Default | Extra |
++---------------------+-------------+------+-----+---------+-------+
+| id                  | int         | NO   | PRI | NULL    |       |
+| numShutouts         | int         | NO   |     | NULL    |       |
+| goalLeaderId        | varchar(16) | NO   |     | NULL    |       |
+| assistLeaderId      | varchar(16) | NO   |     | NULL    |       |
+| penaltyLeaderId     | varchar(16) | NO   |     | NULL    |       |
+| plusMinusId         | int         | NO   |     | NULL    |       |
+| faceOffsWonLeaderId | int         | NO   |     | NULL    |       |
+| sogLeaderId         | int         | NO   |     | NULL    |       |
++---------------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> desc userstatspicks;
++---------------------+-------------+------+-----+---------+-------+
+| Field               | Type        | Null | Key | Default | Extra |
++---------------------+-------------+------+-----+---------+-------+
+| id                  | int         | NO   |     | NULL    |       |
+| round1              | int         | NO   |     | NULL    |       |
+| goalLeaderId        | varchar(16) | NO   |     | NULL    |       |
+| assistLeaderId      | varchar(16) | NO   |     | NULL    |       |
+| penaltyLeaderId     | varchar(16) | NO   |     | NULL    |       |
+| plusMinusId         | int         | NO   |     | NULL    |       |
+| faceOffsWonLeaderId | int         | NO   |     | NULL    |       |
+| sogLeaderId         | int         | NO   |     | NULL    |       |
+| numShutouts         | int         | NO   |     | NULL    |       |
+| userId              | int         | NO   |     | NULL    |       |
++---------------------+-------------+------+-----+---------+-------+
+10 rows in set (0.00 sec)
+
+mysql> desc user;
++----------+-------------+------+-----+---------+-------+
+| Field    | Type        | Null | Key | Default | Extra |
++----------+-------------+------+-----+---------+-------+
+| id       | int         | NO   | PRI | NULL    |       |
+| username | varchar(40) | NO   |     | NULL    |       |
+| password | varchar(35) | NO   |     | NULL    |       |
++----------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> INSERT into gamescores (id, team1Score, team2Score)
+    -> values (1, 2, 2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT into roundstats (id, numShutouts, goalLeaderId, assistLeaderId, penaltyLeaderId, plusMinusId, faceoffsWonLeaderId, sogLeaderId)
+    -> values (1, 3, 4, 4, 8, 3, 14, 20);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT into userstatspicks (id, roundId, goalLeaderId, assistLeaderId, penaltyLeaderId, plusMinusId, faceoffsWonLeaderId, sogLeaderId, numShutouts, userId)
+    -> values (1, 1, 10, 15, 12, 8, 14, 20, 2, 2);
+ERROR 1054 (42S22): Unknown column 'roundId' in 'field list'
+mysql> ALTER TABLE userstatspicks
+    -> RENAME COLUMN round1 to roundId;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> INSERT into userstatspicks (id, roundId, goalLeaderId, assistLeaderId, penaltyLeaderId, plusMinusId, faceoffsWonLeaderId, sogLeaderId, numShutouts, userId)
+    -> values (1, 1, 10, 15, 12, 8, 14, 20, 2, 2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT into user (id, username, password)
+    -> values (3, 'TENXZ', 'Pablito13');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> desc userscorepicks;
++--------------+------+------+-----+---------+-------+
+| Field        | Type | Null | Key | Default | Extra |
++--------------+------+------+-----+---------+-------+
+| id           | int  | NO   | PRI | NULL    |       |
+| hockeyGameId | int  | NO   |     | NULL    |       |
+| team1IdScore | int  | NO   |     | NULL    |       |
+| team2IdScore | int  | NO   |     | NULL    |       |
+| userId       | int  | NO   |     | NULL    |       |
++--------------+------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> ALTER TABLE userscorepicks
+    -> RENAME COLUMN team1IdScore to team1socre;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE userscorepicks
+    -> RENAME COLUMN team2IdScore to team2score;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE userscorepicks
+    -> RENAME COLUMN team1socre to team1score;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> INSERT INTO userscorepicks (id, hockeyGameId, team1score, team2score, userId)
+    -> values (1, 1, 2, 2, 1);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT into hockeyteam (id, name, logo)
+    -> values(1, 'Team A', '0XA');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> INSERT into hockeyteamplayer (id, hockeyTeamId, firstName, lastName, jerseyNum, position)
+    -> values (1, 1, 'Guadalupe', 'Toledo', 11, 'Forward');
+ERROR 1054 (42S22): Unknown column 'position' in 'field list'
+mysql> desc hockeyteamplayer;
++--------------+-------------+------+-----+---------+-------+
+| Field        | Type        | Null | Key | Default | Extra |
++--------------+-------------+------+-----+---------+-------+
+| id           | int         | NO   | PRI | NULL    |       |
+| hockeyTeamId | int         | NO   |     | NULL    |       |
+| firstName    | varchar(20) | NO   |     | NULL    |       |
+| lastName     | varchar(25) | NO   |     | NULL    |       |
+| jerseyNum    | int         | NO   |     | NULL    |       |
++--------------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> ALTER TABLE hockeyteamplayer
+    -> ADD position varchar(20);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> INSERT into hockeyteamplayer (id, hockeyTeamId, firstName, lastName, jerseyNum, position)
+    -> values (1, 1, 'Guadalupe', 'Toledo', 11, 'Forward');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> INSERT into userinfo  (id, firstName, lastName, email, round1Points, round2Points, round3Points, round4Points)
+    -> values (1, 'Guadalupe', 'Toledo', 'tenzed69@gmail.com', 0, 1, 1, 2);
+Query OK, 1 row affected (0.00 sec)
