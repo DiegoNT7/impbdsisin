@@ -1,0 +1,152 @@
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Welcome to the MySQL monitor.  Commands end with ; or g.
+Your MySQL connection id is 26569647
+Server version 8.0.40 Source distribution
+
+Copyright (c) 2000, 2022, Oracle andor its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation andor its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or 'h' for help. Type 'c' to clear the current input statement.
+
+mysql use DiegoN$Chopizza;
+Database changed
+mysql show tables;
++---------------------------+
+ Tables_in_DiegoN$Chopizza 
++---------------------------+
+ Desarrollo2               
+ Descripciones             
+ candidato                 
+ customers                 
++---------------------------+
+4 rows in set (0.02 sec)
+
+mysql CREATE TABLE articulosone (
+    -     Artículo varchar(30)
+    - );
+Query OK, 0 rows affected (0.06 sec)
+
+mysql 
+mysql CREATE TABLE articulostwo (
+    -     Articulo varchar(30)
+    - );
+Query OK, 0 rows affected (0.02 sec)
+
+mysql INSERT INTO articulosone ( Artículo ) VALUES
+    - ('Azucar'),
+    -     ('Pan'),
+    -     ('jugo'),
+    -     ('Refresco'),
+    -     ('Harina');
+Query OK, 5 rows affected (0.01 sec)
+Records 5  Duplicates 0  Warnings 0
+
+mysql 
+mysql INSERT INTO articulostwo ( Articulo ) VALUES
+    - ('Azucar'),
+    -     ('Pan'),
+    -     ('Mantequilla'),
+    -     ('Queso'),
+    -     ('Manzana');
+Query OK, 5 rows affected (0.01 sec)
+Records 5  Duplicates 0  Warnings 0
+
+mysql SELECT  from articulosone left outer join articulostwo on articulosone.Artículo = articulostwo.Articulo
+    - union 
+    - SELECT  from articulosone right outer join articulostwo on articulostwo.Articulo = articulosone.Artículo;
++-----------+-------------+
+ Artículo   Articulo    
++-----------+-------------+
+ Azucar     Azucar      
+ Pan        Pan         
+ jugo       NULL        
+ Refresco   NULL        
+ Harina     NULL        
+ NULL       Mantequilla 
+ NULL       Queso       
+ NULL       Manzana     
++-----------+-------------+
+8 rows in set (0.00 sec)
+
+mysql CREATE TABLE empresae2 (
+    - id_empleado INT,
+    - id_gerente INT,
+    - puesto VARCHAR (30)
+    - ); 
+Query OK, 0 rows affected (0.02 sec)
+
+mysql INSERT INTO empresae2 (id_empleado,id_gerente,puesto) VALUES 
+    - (1001, ' ' ,'Presidente'),
+    - (2002, 1001 ,'Director'),
+    - (3003, 1001 ,'Gerente'),
+    - (4004, 2002 ,'Ingeniero'),
+    - (5005, 2002 ,'Contador'),
+    - (6006, 2002 ,'Administrador');
+Query OK, 6 rows affected, 1 warning (0.00 sec)
+Records 6  Duplicates 0  Warnings 1
+
+mysql 
+mysql 
+mysql  WITH RECURSIVE Jerarquia AS (
+    - SELECT id_empleado, id_gerente ,puesto, 0 AS Nivel 
+    - FROM empresae2
+    - WHERE id_gerente IS NULL
+    - 
+    - UNION ALL
+    - 
+    - SELECT e.id_empleado, e.id_gerente, e.puesto, j.id_empleado +1
+    - FROM empresae2 e
+    - JOIN empresae2 j ON e.id_gerente = j.id_empleado 
+    - ) 
+    - 
+    - SELECT  FROM Jerarquia ORDER BY Nivel, id_empleado;
++-------------+------------+---------------+-------+
+ id_empleado  id_gerente  puesto         Nivel 
++-------------+------------+---------------+-------+
+        2002        1001  Director        1002 
+        3003        1001  Gerente         1002 
+        4004        2002  Ingeniero       2003 
+        5005        2002  Contador        2003 
+        6006        2002  Administrador   2003 
++-------------+------------+---------------+-------+
+5 rows in set (0.00 sec)
+
+mysql CREATE TABLE predicadose3 (
+    -     id_cliente INT,
+    -     id_orden INT,
+    -     estado_destino VARCHAR (30),
+    -     costo VARCHAR(10) 
+    - );
+Query OK, 0 rows affected (0.08 sec)
+
+mysql INSERT INTO predicadose3(id_cliente,id_orden,estado_destino,costo) VALUES 
+    - (1001, 1, 'JAL', '$987'),
+    - (1001, 2, 'CDMX', '$400'),
+    - (1001, 3, 'CDMX', '$545'),
+    - (1001, 4, 'CDMX', '$321'),
+    - (2002, 5, 'MTY', '$324'),
+    - (3003, 6, 'JAL', '$931'),
+    - (4004, 7, 'JAL', '$876'),
+    - (5005, 8, 'CDMX', '$567');
+Query OK, 8 rows affected (0.00 sec)
+Records 8  Duplicates 0  Warnings 0
+
+mysql SELECT id_cliente,id_orden,estado_destino,costo
+    - FROM predicadose3
+    - WHERE estado_destino = 'CDMX'
+    - AND id_cliente IN (
+    -     SELECT id_cliente FROM predicadose3 WHERE estado_destino = 'JAL'
+    - );
++------------+----------+----------------+-------+
+ id_cliente  id_orden  estado_destino  costo 
++------------+----------+----------------+-------+
+       1001         2  CDMX            $400  
+       1001         3  CDMX            $545  
+       1001         4  CDMX            $321  
++------------+----------+----------------+-------+
+3 rows in set (0.00 sec)
