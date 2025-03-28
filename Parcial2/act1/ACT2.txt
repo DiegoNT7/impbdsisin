@@ -108,11 +108,12 @@ mysql  WITH RECURSIVE Jerarquia AS (
 +-------------+------------+---------------+-------+
  id_empleado  id_gerente  puesto         Nivel 
 +-------------+------------+---------------+-------+
-        2002        1001  Director        1002 
-        3003        1001  Gerente         1002 
-        4004        2002  Ingeniero       2003 
-        5005        2002  Contador        2003 
-        6006        2002  Administrador   2003 
+        1001              Presidente      0
+        2002        1001  Director        1 
+        3003        1001  Gerente         1 
+        4004        2002  Ingeniero       2 
+        5005        2002  Contador        2 
+        6006        2002  Administrador   2  
 +-------------+------------+---------------+-------+
 5 rows in set (0.00 sec)
 
