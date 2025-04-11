@@ -36,3 +36,26 @@ mysql> SELECT a.id_empleado AS empleado_1, b.id_empleado AS empleado_2, COUNT(*)
 |       4004 |       5005 |             3 |
 +------------+------------+---------------+
 2 rows in set (0.01 sec)
+
+mysql> 
+mysql> 
+mysql> INSERT INTO flujos_trabajo (Flujo, Caso_1, Caso_2, Caso_3) VALUES
+    -> ('Alta de usuario', 0, 0, 0),
+    -> ('Baja de usuario', 0, 1, 1),
+    -> ('Nueva Orden', 1, 0, 0),
+    -> ('Elimina Orden', 0, 0, 0);
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+mysql> 
+mysql> SELECT
+    -> Flujo,
+    -> (Caso_1 + Caso_2 + Caso_3) AS Aprobado
+    -> FROM flujos_trabajo;
++-----------------+----------+
+| Flujo           | Aprobado |
++-----------------+----------+
+| Alta de usuario |        0 |
+| Baja de usuario |        2 |
+| Nueva Orden     |        1 |
+| Elimina Orden   |        0 |
++-----------------+----------+
