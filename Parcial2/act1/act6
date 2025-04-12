@@ -1,0 +1,157 @@
+mysql> CREATE TABLE productos (
+    ->     Producto VARCHAR(50),
+    ->     Cantidad INT
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+mysql> 
+mysql> INSERT INTO productos VALUES 
+    -> ('Lápiz', 3), 
+    -> ('Borrador', 4), 
+    -> ('Cuaderno', 2);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+mysql> WITH RECURSIVE numeros AS (
+    ->     SELECT 1 AS n
+    ->     UNION ALL
+    ->     SELECT n + 1 FROM numeros WHERE n < 100
+    -> )
+    -> 
+    -> SELECT p.Producto, 1 AS Cantidad
+    -> FROM productos p
+    -> JOIN numeros n ON n <= p.Cantidad
+    -> ORDER BY p.Producto;
++----------+----------+
+| Producto | Cantidad |
++----------+----------+
+| Borrador |        1 |
+| Borrador |        1 |
+| Borrador |        1 |
+| Borrador |        1 |
+| Cuaderno |        1 |
+| Cuaderno |        1 |
+| Lápiz    |        1 |
+| Lápiz    |        1 |
+| Lápiz    |        1 |
++----------+----------+
+9 rows in set (0.01 sec)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+mysql> CREATE TABLE periodos (
+    ->     Inicio DATE,
+    ->     Final DATE
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+mysql> 
+mysql> 
+mysql> INSERT INTO periodos VALUES
+    -> ('2025-01-01', '2025-01-05'),
+    -> ('2025-01-03', '2025-01-09'),
+    -> ('2025-01-10', '2025-01-11'),
+    -> ('2025-01-12', '2025-01-16'),
+    -> ('2025-01-15', '2025-01-19');
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+mysql> WITH ordenados AS (
+    ->     SELECT *,
+    ->            LAG(Final) OVER (ORDER BY Inicio) AS Final_anterior
+    ->     FROM periodos
+    -> ),
+    -> marcados AS (
+    ->     SELECT *,
+    ->            CASE 
+    ->                WHEN Final_anterior IS NULL OR Inicio > Final_anterior THEN 1
+    ->                ELSE 0
+    ->            END AS nuevo_grupo
+    ->     FROM ordenados
+    -> ),
+    -> grupos AS (
+    ->     SELECT *,
+    ->            SUM(nuevo_grupo) OVER (ORDER BY Inicio) AS grupo
+    ->     FROM marcados
+    -> )
+    -> SELECT MIN(Inicio) AS Inicio, MAX(Final) AS Final
+    -> FROM grupos
+    -> GROUP BY grupo
+    -> ORDER BY Inicio;
++------------+------------+
+| Inicio     | Final      |
++------------+------------+
+| 2025-01-01 | 2025-01-09 |
+| 2025-01-10 | 2025-01-11 |
+| 2025-01-12 | 2025-01-19 |
++------------+------------+
+3 rows in set (0.00 sec)
