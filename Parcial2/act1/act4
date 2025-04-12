@@ -59,3 +59,68 @@ mysql> SELECT
 | Nueva Orden     |        1 |
 | Elimina Orden   |        0 |
 +-----------------+----------+
+
+
+mysql> CREATE TABLE numeros (
+    ->     Entero int
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+mysql> 
+mysql> INSERT INTO numeros ( Entero ) VALUES
+    ->     (5),
+    ->     (6),
+    ->     (10),
+    ->     (10),
+    ->     (13),
+    ->     (14),
+    ->     (17),
+    ->     (20),
+    ->     (81),
+    ->     (90),
+    ->     (76);
+Query OK, 11 rows affected (0.01 sec)
+Records: 11  Duplicates: 0  Warnings: 0
+mysql> SELECT AVG (Entero) AS media
+    -> From numeros; 
++---------+
+| media   |
++---------+
+| 31.0909 |
++---------+
+1 row in set (0.00 sec)
+mysql> WITH Ordenados AS (
+    ->     SELECT Entero, 
+    ->            ROW_NUMBER() OVER (ORDER BY Entero) AS fila, 
+    ->            COUNT(*) OVER () AS total_filas
+    ->     FROM numeros
+    -> )
+    -> SELECT Entero AS mediana
+    -> FROM Ordenados
+    -> WHERE fila = (total_filas + 1) / 2;
++---------+
+| mediana |
++---------+
+|      14 |
++---------+
+1 row in set (0.00 sec)
+mysql> SELECT Entero 
+    -> FROM numeros
+    -> GROUP BY Entero
+    -> ORDER BY COUNT(*) DESC
+    -> LIMIT 1;
++--------+
+| Entero |
++--------+
+|     10 |
++--------+
+1 row in set (0.00 sec)
+
+mysql> SELECT MAX(Entero) - MIN(Entero) AS rango
+    -> FROM numeros;
++-------+
+| rango |
++-------+
+|    85 |
++-------+
+1 row in set (0.00 sec)
+
