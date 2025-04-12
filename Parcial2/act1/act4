@@ -122,5 +122,5 @@ mysql> SELECT MAX(Entero) - MIN(Entero) AS rango
 +-------+
 |    85 |
 +-------+
-1 row in set (0.00 sec)
+1 row in set (0.00 sec) 
 
