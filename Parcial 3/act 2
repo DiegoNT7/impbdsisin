@@ -1,0 +1,99 @@
+
+mysql> use DiegoN$Chopizza;
+Database changed
+mysql> show tables;
++---------------------------+
+| Tables_in_DiegoN$Chopizza |
++---------------------------+
+| Asientos                  |
+| Desarrollo2               |
+| Descripciones             |
+| Employees                 |
+| Grupos                    |
+| Inventario                |
+| MarcadoresG               |
+| Registro                  |
+| SampleData                |
+| articulosone              |
+| articulostwo              |
+| candidato                 |
+| casos                     |
+| customers                 |
+| empresae2                 |
+| flujos_trabajo            |
+| iteraciones               |
+| licencias                 |
+| logs                      |
+| materiales                |
+| numeros                   |
+| paginacion                |
+| pedidos                   |
+| periodos                  |
+| precios                   |
+| predicadose3              |
+| productos                 |
+| puntuaciones              |
+| tiempos                   |
+| ventas                    |
++---------------------------+
+30 rows in set (0.01 sec)
+mysql> CREATE TABLE Ordenes (
+    ->     id INT PRIMARY KEY,
+    ->     producto VARCHAR(50),
+    ->     dias_para_entregar INT
+    -> );
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> 
+mysql> CREATE TABLE TiemposManufactura (
+    ->     producto VARCHAR(50),
+    ->     componente VARCHAR(50),
+    ->     dias_manufactura INT
+    -> );
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> INSERT INTO Ordenes (id, producto, dias_para_entregar) VALUES
+    -> (1, 'Amanecer', 7),
+    -> (2, 'Atardecer', 3),
+    -> (3, 'Anochecer', 9);
+Query OK, 3 rows affected (0.01 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> 
+mysql> INSERT INTO TiemposManufactura (producto, componente, dias_manufactura) VALUES
+    -> ('Amanecer', 'Photon Coil', 7),
+    -> ('Amanecer', 'Filamento', 2),
+    -> ('Amanecer', 'Capacitor', 3),
+    -> ('Amanecer', 'Esfera', 1),
+    -> ('Atardecer', 'Photon Coil', 7),
+    -> ('Atardecer', 'Filamento', 2),
+    -> ('Anochecer', 'Capacitor', 3),
+    -> ('Anochecer', 'Photon Coil', 1);
+Query OK, 8 rows affected (0.01 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+mysql> SELECT 
+    ->     o.id,
+    ->     o.producto,
+    ->     MAX(t.dias_manufactura) AS dias_para_armar,
+    ->     o.dias_para_entregar,
+    ->     CASE
+    ->         WHEN MAX(t.dias_manufactura) = o.dias_para_entregar THEN 'En tiempo'
+    ->         WHEN MAX(t.dias_manufactura) < o.dias_para_entregar THEN 'Adelantado'
+    ->         ELSE 'Atrasado'
+    ->     END AS calendario
+    -> FROM 
+    ->     Ordenes o
+    -> JOIN 
+    ->     TiemposManufactura t ON o.producto = t.producto
+    -> GROUP BY 
+    ->     o.id, o.producto, o.dias_para_entregar;
++----+-----------+-----------------+--------------------+------------+
+| id | producto  | dias_para_armar | dias_para_entregar | calendario |
++----+-----------+-----------------+--------------------+------------+
+|  1 | Amanecer  |               7 |                  7 | En tiempo  |
+|  2 | Atardecer |               7 |                  3 | Atrasado   |
+|  3 | Anochecer |               3 |                  9 | Adelantado |
++----+-----------+-----------------+--------------------+------------+
+3 rows in set (0.00 sec)
+mysql> 
